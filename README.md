@@ -23,6 +23,8 @@ source .env/bin/activate
 
 ```bash
 pip install pre-commit nbstripout
+# pre commit 
+pre-commit install
 ## Setting up nbstripout directly without to use the pre-commit
 nbstripout --install
 ```
