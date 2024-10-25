@@ -59,6 +59,23 @@ services:
     networks:
       - spark-network
 
+  minio:
+    container_name: minio-delta-lake-container
+    image: quay.io/minio/minio
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+   
+    volumes:
+      - './minio-delta-lake:/data'
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=refatorandopass
+      - MINIO_DEFAULT_BUCKETS=your_bucket_name
+    networks:
+      - spark-network
+    command: server --console-address ":9001" /data
+
   jupyter:
     build:
       context: .  # Use the current directory to build the Dockerfile
@@ -77,24 +94,7 @@ services:
       - spark-master
       - spark-worker-1
       - spark-worker-2
-
-  minio:
-    container_name: minio-delta-lake-container
-    image: quay.io/minio/minio
-    ports:
-      - '9000:9000'
-      - '9001:9001'
-   
-    volumes:
-      - './minio-delta-lake:/data'
-    environment:
-      - MINIO_ROOT_USER=admin
-      - MINIO_ROOT_PASSWORD=refatorandopass
-      - MINIO_DEFAULT_BUCKETS=your_bucket_name
-    networks:
-      - spark-network
-    command: server --console-address ":9001" /data
-
+      - minio
       
 networks:
   spark-network:
