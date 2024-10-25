@@ -1,6 +1,6 @@
-data-source/
-minio-delta-lake/
-jars/
+data-source/!.gitkeep
+minio-delta-lake/!.gitkeep
+jars/!.gitkeep
 
 # Except this
 !.gitignore
