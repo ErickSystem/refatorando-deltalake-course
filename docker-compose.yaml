@@ -1,0 +1,101 @@
+version: '3'
+services:
+
+  # --------------------------- #
+  # Apache Spark with Delta     #
+  # --------------------------- #
+  spark-master:
+    container_name: spark-master-container
+    image: docker.io/bitnami/spark:3.4.1
+    environment:
+      - SPARK_MODE=master
+      - SPARK_MASTER_HOST=spark-master
+      - SPARK_MASTER_PORT=7077
+    ports:
+      - '8080:8080'
+      - '4041:4041'
+      - '7077:7077'
+    volumes:
+      - ./data:/data
+      - ./src:/src
+    networks:
+      - spark-network
+
+  spark-worker-1:
+    container_name: spark-worker-1-container
+    image: docker.io/bitnami/spark:3.4.1
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_MEMORY=3G
+      - SPARK_EXECUTOR_MEMORY=1.5G
+      - SPARK_WORKER_CORES=2
+    volumes:
+      - ./data:/data
+      - ./src:/src
+    ports:
+      - 8081:8081  # UI do Spark Worker 1
+    depends_on:
+      - spark-master
+    networks:
+      - spark-network
+
+  spark-worker-2:
+    container_name: spark-worker-2-container
+    image: docker.io/bitnami/spark:3.4.1
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_MEMORY=3G
+      - SPARK_EXECUTOR_MEMORY=1.5G
+      - SPARK_WORKER_CORES=2
+    volumes:
+      - ./data:/data
+      - ./src:/src
+    ports:
+      - 8082:8081  # UI do Spark Worker 2 (mude a porta para evitar conflitos)
+    depends_on:
+      - spark-master
+    networks:
+      - spark-network
+
+  minio:
+    container_name: minio-delta-lake-container
+    image: quay.io/minio/minio
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+   
+    volumes:
+      - './minio-delta-lake:/data'
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=refatorandopass
+      - MINIO_DEFAULT_BUCKETS=your_bucket_name
+    networks:
+      - spark-network
+    command: server --console-address ":9001" /data
+
+  jupyter:
+    build:
+      context: .  # Use the current directory to build the Dockerfile
+      dockerfile: dockerfile.jupyter  # Use the Dockerfile you created
+    container_name: jupyter-container
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./src:/home/jovyan/work
+    networks:
+      - spark-network
+    user: root
+    depends_on:
+      - spark-master
+      - spark-worker-1
+      - spark-worker-2
+      - minio
+      
+networks:
+  spark-network:
+    driver: bridge

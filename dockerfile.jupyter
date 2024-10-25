@@ -1,0 +1,36 @@
+# Use the official Jupyter PySpark Notebook image as the base
+FROM jupyter/pyspark-notebook:spark-3.4.1
+
+# Switch to root user to install additional packages
+USER root
+
+# Update package list and install additional tools (e.g., jq)
+RUN apt-get update && \
+    apt-get install -y jq && \
+    apt-get install -y zip && \
+    apt-get install -y unzip && \
+    apt-get clean
+
+# Ensure .ivy2 and its subdirectories are created
+RUN mkdir -p /home/jovyan/.ivy2/jars /home/jovyan/.ivy2/cache
+
+# Copy the JAR jars from the local directory to the container's .ivy2 cache
+COPY jars/jars.zip /home/jovyan
+COPY jars/cache-jars.zip /home/jovyan
+
+# install jars and cache
+RUN unzip /home/jovyan/jars.zip -d /home/jovyan/.ivy2/ && \
+    unzip /home/jovyan/cache-jars.zip -d /home/jovyan/.ivy2/ && \
+    rm -rf /home/jovyan/*.zip
+
+# Change ownership to default user
+RUN chown -R ${NB_UID}:${NB_GID} /home/jovyan/.ivy2
+
+# Switch back to the default user
+USER ${NB_UID}
+
+# Set environment variable to enable Jupyter Lab by default
+ENV JUPYTER_ENABLE_LAB=yes
+
+# Command to run the Jupyter Notebook without a password
+CMD ["start-notebook.sh", "--NotebookApp.token=''"]
