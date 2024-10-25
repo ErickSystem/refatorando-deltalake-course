@@ -44,12 +44,12 @@ nbstripout --install
 
 Let's use this notebook below and check it out if we can connect with Spark cluster
 
-- `spark_test.ipynb`
+- `src/spark_test.ipynb`
 
 Another notebook will be used to test Spark cluster, and the configs required.
 It is in this notebook that let's go to make the initial connection between Delta Lake (Processing Layer) and Minio (Repository similar to the AWS S3)
 
-- `spark_test_con_minio.ipynb`
+- `src/spark_test_con_minio.ipynb`
 
 ### Usage:
 1. After setting up the Docker containers, access Jupyter notebook through the provided URL.
@@ -71,7 +71,7 @@ mc ls myminio
 
 The notebook below contains the optimizations made for our development environment, considering a machine with limited resources. These configs will make our Spark cluster more efficient for our tests while working in the local development environment.
 
-- `spark_tuning.ipynb`
+- `src/spark_tuning.ipynb`
 - [Learn more about the configurations of this environment](./docs/spark_tuning.md)
 
 ### PROJECTS
