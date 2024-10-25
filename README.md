@@ -35,7 +35,7 @@ nbstripout --install
 1. Clone the repository to your local machine.
 2. Ensure Docker is installed and running.
 3. Navigate to the project directory containing the docker-compose.yml file.
-4. Run `docker-compose up` to start the services defined in the docker-compose file.
+4. Run `docker-compose up -d` to start the services defined in the docker-compose file.
 5. Access JUPYTER notebook through `http://localhost:8888` to execute the provided code.
 5. Access SPARK UI through `http://localhost:8080`
 6. Access MINIO through `http://localhost:9000` (USER: admin PASS: refatorandopass)
