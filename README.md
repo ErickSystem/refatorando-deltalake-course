@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# refatorando-deltalake-course
-=======
 # COURSE TO TEACH ABOUT DELTA LAKE
 
 ## SETUP INITIAL ENVIRONMENT
@@ -84,4 +81,3 @@ The notebook below contains the optimizations made for our development environme
 - [01 Hotel Booking](./docs/projects/01_hotel_booking.md)
 
 
->>>>>>> develop
