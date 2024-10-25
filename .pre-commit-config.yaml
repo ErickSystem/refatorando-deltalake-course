@@ -3,5 +3,5 @@ repos:
     rev: 0.5.0  # Escolha a versão desejada
     hooks:
       - id: nbstripout
-        files: \.ipynb$
+        files: src\.ipynb$
         exclude: ^minio-delta-lake/
