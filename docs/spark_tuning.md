@@ -86,4 +86,16 @@ spark.serializer = org.apache.spark.serializer.KryoSerializer
 
 ```bash
 spark.executor.extraJavaOptions = "-XX:+UseG1GC"
-``` 
+```
+
+### Creating a cache jars
+
+1. This step must be executed inside Jupyter using a terminal
+```bash
+# zip jars downloaded
+cd /home/jovyan/.ivy2 && zip -r -9 /home/jovyan/jars/jars.zip jars
+# zip jars ceched
+cd /home/jovyan/.ivy2 && zip -r -9 /home/jovyan/jars/cache-jars.zip cache
+```
+2. Uncomment the area from the file: `dockerfile.jupyter` where it has written: **CREATING CACHE JARS**
+3. Make it the build again of container: `docker-compose up --build -d jupyter`
