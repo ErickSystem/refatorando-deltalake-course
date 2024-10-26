@@ -51,12 +51,12 @@ Let's use this notebook below and check it out if we can connect with Spark clus
 Another notebook will be used to test Spark cluster, and the configs required.
 It is in this notebook that let's go to make the initial connection between Delta Lake (Processing Layer) and Minio (Repository similar to the AWS S3)
 
-- `src/spark_test_con_minio.ipynb`
+- `src/spark_test_delta_with_minio.ipynb`
 
 ### Usage:
 1. After setting up the Docker containers, access Jupyter notebook through the provided URL.
 2. Use the provided code snippet in a Jupyter notebook or Python environment to interact with Minio using Apache Spark with Delta.
-3. Modify the code as needed for your specific use case, such as changing the access key, secret key, endpoint, or file paths.
+3. Generate the keys in Minio: **access key** and **secret key** and add them inside the `envs.conf` file
 4. initialize envs: `source envs.conf`
 5. MINIO by CLI
 
@@ -67,6 +67,8 @@ brew install minio/stable/mc
 mc alias set myminio $MINIO_SERVER:$MINIO_PORT $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
 # testing credentials listing all buckets
 mc ls myminio
+# Copy data to stage
+mc cp data/hotel_booking.csv myminio/stage/
 ```
 
 ### SPARK PERFOMANCE TUNING
