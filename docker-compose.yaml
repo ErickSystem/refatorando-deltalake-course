@@ -87,6 +87,7 @@ services:
       - "8888:8888"
     volumes:
       - ./src:/home/jovyan/work
+      - ./jars:/home/jovyan/jars
     networks:
       - spark-network
     user: root

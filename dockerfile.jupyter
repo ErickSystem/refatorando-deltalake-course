@@ -14,14 +14,17 @@ RUN apt-get update && \
 # Ensure .ivy2 and its subdirectories are created
 RUN mkdir -p /home/jovyan/.ivy2/jars /home/jovyan/.ivy2/cache /tmp/spark-logs
 
-# Copy the JAR jars from the local directory to the container's .ivy2 cache
-COPY jars/jars.zip /home/jovyan
-COPY jars/cache-jars.zip /home/jovyan
+############################
+#   CREATING CACHE JARS    #
+############################
+# # Copy the JAR jars from the local directory to the container's .ivy2 cache
+# COPY jars/jars.zip /home/jovyan
+# COPY jars/cache-jars.zip /home/jovyan
 
-# install jars and cache
-RUN unzip /home/jovyan/jars.zip -d /home/jovyan/.ivy2/ && \
-    unzip /home/jovyan/cache-jars.zip -d /home/jovyan/.ivy2/ && \
-    rm -rf /home/jovyan/*.zip
+# # install jars and cache
+# RUN unzip /home/jovyan/jars.zip -d /home/jovyan/.ivy2/ && \
+#     unzip /home/jovyan/cache-jars.zip -d /home/jovyan/.ivy2/ && \
+#     rm -rf /home/jovyan/*.zip
 
 # Change ownership to default user
 RUN chown -R ${NB_UID}:${NB_GID} /home/jovyan/.ivy2 && \
