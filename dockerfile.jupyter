@@ -17,7 +17,7 @@ RUN mkdir -p /home/jovyan/.ivy2/jars /home/jovyan/.ivy2/cache /tmp/spark-logs
 ############################
 #   CREATING CACHE JARS    #
 ############################
-# # Copy the JAR jars from the local directory to the container's .ivy2 cache
+# Copy the JAR jars from the local directory to the container's .ivy2 cache
 # COPY jars/jars.zip /home/jovyan
 # COPY jars/cache-jars.zip /home/jovyan
 
