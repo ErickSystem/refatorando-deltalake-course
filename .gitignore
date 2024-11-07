@@ -1,3 +1,5 @@
+src/.env/
+
 data-source/
 minio-delta-lake/
 jars/
