@@ -29,6 +29,20 @@ pre-commit run --all-files
 nbstripout --install
 ```
 
+#### Creating a virtual environment (env) to the Jupyter Notebook or JupyterLab kernel list
+
+```bash
+# Inside jupyter lab using terminal
+cd ~/work
+# creating env
+python3 -m venv .env
+# Using
+source .env/bin/activate
+# Installing libraries
+pip install -r requirements.txt
+# Add the virtual environment to Jupyter as a new kernel:
+python -m ipykernel install --user --name .env --display-name "Python (course_delta_lake)"
+```
 
 ### Installation and Setup:
 
