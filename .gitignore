@@ -1,5 +1,6 @@
 src/.env/
 src/spark-warehouse/
+src/spark-logs/
 
 data-source/
 minio-delta-lake/
