@@ -1,0 +1,61 @@
+{
+  "Rules": [
+    {
+      "ID": "TransitionToInfrequentAccess",
+      "Filter": {
+        "Prefix": ""
+      },
+      "Status": "Enabled",
+      "Transitions": [
+        {
+          "Days": 30,
+          "StorageClass": "STANDARD_IA"
+        }
+      ],
+      "NoncurrentVersionTransitions": [
+        {
+          "NoncurrentDays": 30,
+          "StorageClass": "STANDARD_IA"
+        }
+      ],
+      "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 365
+      },
+      "AbortIncompleteMultipartUpload": {
+        "DaysAfterInitiation": 7
+      }
+    },
+    {
+      "ID": "TransitionToGlacier",
+      "Filter": {
+        "Prefix": ""
+      },
+      "Status": "Enabled",
+      "Transitions": [
+        {
+          "Days": 90,
+          "StorageClass": "GLACIER"
+        }
+      ],
+      "NoncurrentVersionTransitions": [
+        {
+          "NoncurrentDays": 90,
+          "StorageClass": "GLACIER"
+        }
+      ]
+    },
+    {
+      "ID": "ExpireObjects",
+      "Filter": {
+        "Prefix": ""
+      },
+      "Status": "Enabled",
+      "Expiration": {
+        "Days": 3650
+      },
+      "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 3650
+      }
+    }
+  ]
+}
