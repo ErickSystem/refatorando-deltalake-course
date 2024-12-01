@@ -11,6 +11,7 @@ services:
       - SPARK_MODE=master
       - SPARK_MASTER_HOST=spark-master
       - SPARK_MASTER_PORT=7077
+      - SPARK_LOCAL_DIRS=/tmp/spark-temp  # Adicione esta linha
     ports:
       - '8080:8080'
       - '4041:4041'
@@ -18,6 +19,7 @@ services:
     volumes:
       - ./data:/data
       - ./src:/src
+      - ./spark-temp:/tmp/spark-temp  # Adicione esta linha
     networks:
       - spark-network
 
@@ -30,9 +32,11 @@ services:
       - SPARK_WORKER_MEMORY=3G
       - SPARK_EXECUTOR_MEMORY=1.5G
       - SPARK_WORKER_CORES=2
+      - SPARK_LOCAL_DIRS=/tmp/spark-temp  # Adicione esta linha
     volumes:
       - ./data:/data
       - ./src:/src
+      - ./spark-temp:/tmp/spark-temp  # Adicione esta linha
     ports:
       - 8081:8081  # UI do Spark Worker 1
     depends_on:
@@ -49,9 +53,11 @@ services:
       - SPARK_WORKER_MEMORY=3G
       - SPARK_EXECUTOR_MEMORY=1.5G
       - SPARK_WORKER_CORES=2
+      - SPARK_LOCAL_DIRS=/tmp/spark-temp  # Adicione esta linha
     volumes:
       - ./data:/data
       - ./src:/src
+      - ./spark-temp:/tmp/spark-temp  # Adicione esta linha
     ports:
       - 8082:8081  # UI do Spark Worker 2 (mude a porta para evitar conflitos)
     depends_on:

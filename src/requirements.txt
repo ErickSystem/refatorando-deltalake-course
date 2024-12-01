@@ -1,4 +1,5 @@
 minio==7.2.10
+boto3==1.35.71
 delta-spark==3.2.1
 pandas==2.2.3
 ipykernel==6.29.5
