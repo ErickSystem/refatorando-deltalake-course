@@ -92,6 +92,14 @@ The notebook below contains the optimizations made for our development environme
 - `src/spark_tuning.ipynb`
 - [Learn more about the configurations of this environment](./docs/spark_tuning.md)
 
+**IMPORTANT**
+
+Clean up **spark-temp** sometimes to avoid the growth of paths and files.
+
+```bash
+rm -rf spark-temp/spark-*
+```
+
 ### PROJECTS
 
 - [01 Hotel Booking](./docs/projects/01_hotel_booking.md)
