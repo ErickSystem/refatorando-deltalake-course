@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
 
   # --------------------------- #
@@ -118,7 +116,7 @@ services:
     volumes:
       - ./openmetadata_db_data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "3306:3306"  # Porta padrão do MySQL
     networks:
       - spark-network
     command: --default-authentication-plugin=mysql_native_password
@@ -128,25 +126,33 @@ services:
       timeout: 5s
       retries: 5
 
+  # --------------------------- #
+  # OpenMetadata Services       #
+  # --------------------------- #
+
   openmetadata-server:
-    image: openmetadata/server:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.openmetadata
     container_name: openmetadata-server-container
     environment:
       - OPENMETADATA_SERVER_PORT=8585
-      - OPENMETADATA_DB_HOST=mysql
+      - OPENMETADATA_DB_HOST=openmetadata-mysql-container
       - OPENMETADATA_DB_PORT=3306
       - OPENMETADATA_DB_USERNAME=openmetadata
       - OPENMETADATA_DB_PASSWORD=abc123
       - OPENMETADATA_DB_DATABASE=openmetadata
-      - OPENMETADATA_DATABASE_TYPE=mysql                  # Especifica o tipo de banco de dados
-      - OPENMETADATA_JDBC_URL=jdbc:mysql://mysql:3306/openmetadata?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      # Variáveis adicionais podem ser adicionadas conforme necessário
+      - OPENMETADATA_DATABASE_TYPE=mysql
+      - OPENMETADATA_JDBC_URL=jdbc:mysql://openmetadata-mysql-container:3306/openmetadata?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     ports:
       - "8585:8585"  # Porta padrão do OpenMetadata
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     networks:
       - spark-network
+    # Substitua "your_original_start_command" pelo comando de inicialização original do OpenMetadata.
+    # Isso geralmente não é necessário se a imagem já está configurada corretamente, mas pode ajudar a garantir que o OpenMetadata só inicie após o MySQL estar pronto.    
 
 networks:
   spark-network:

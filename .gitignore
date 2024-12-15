@@ -2,6 +2,7 @@ src/.env/
 src/spark-warehouse/
 src/spark-logs/
 spark-temp/
+openmetadata_db_data/
 
 
 data-source/
