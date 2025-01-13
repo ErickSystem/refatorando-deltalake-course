@@ -78,6 +78,7 @@ services:
       - MINIO_DEFAULT_BUCKETS=your_bucket_name
     networks:
       - spark-network
+      #- shared_network
     command: server --console-address ":9001" /data
 
   jupyter:
@@ -101,59 +102,8 @@ services:
       - spark-worker-2
       - minio
 
-  # --------------------------- #
-  # MySQL para OpenMetadata    #
-  # --------------------------- #
-
-  mysql:
-    image: mysql:8.0
-    container_name: openmetadata-mysql-container
-    environment:
-      - MYSQL_ROOT_PASSWORD=abc123
-      - MYSQL_DATABASE=openmetadata
-      - MYSQL_USER=openmetadata
-      - MYSQL_PASSWORD=abc123
-    volumes:
-      - ./openmetadata_db_data:/var/lib/mysql
-    ports:
-      - "3306:3306"  # Porta padrão do MySQL
-    networks:
-      - spark-network
-    command: --default-authentication-plugin=mysql_native_password
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # --------------------------- #
-  # OpenMetadata Services       #
-  # --------------------------- #
-
-  openmetadata-server:
-    build:
-      context: .
-      dockerfile: Dockerfile.openmetadata
-    container_name: openmetadata-server-container
-    environment:
-      - OPENMETADATA_SERVER_PORT=8585
-      - OPENMETADATA_DB_HOST=openmetadata-mysql-container
-      - OPENMETADATA_DB_PORT=3306
-      - OPENMETADATA_DB_USERNAME=openmetadata
-      - OPENMETADATA_DB_PASSWORD=abc123
-      - OPENMETADATA_DB_DATABASE=openmetadata
-      - OPENMETADATA_DATABASE_TYPE=mysql
-      - OPENMETADATA_JDBC_URL=jdbc:mysql://openmetadata-mysql-container:3306/openmetadata?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    ports:
-      - "8585:8585"  # Porta padrão do OpenMetadata
-    depends_on:
-      mysql:
-        condition: service_healthy
-    networks:
-      - spark-network
-    # Substitua "your_original_start_command" pelo comando de inicialização original do OpenMetadata.
-    # Isso geralmente não é necessário se a imagem já está configurada corretamente, mas pode ajudar a garantir que o OpenMetadata só inicie após o MySQL estar pronto.    
-
 networks:
   spark-network:
     driver: bridge
+  #shared_network:
+    #external: true
