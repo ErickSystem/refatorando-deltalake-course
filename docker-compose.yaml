@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
 
   # --------------------------- #
@@ -12,7 +10,7 @@ services:
       - SPARK_MODE=master
       - SPARK_MASTER_HOST=spark-master
       - SPARK_MASTER_PORT=7077
-      - SPARK_LOCAL_DIRS=/tmp/spark-temp  # Adicione esta linha
+      - SPARK_LOCAL_DIRS=/tmp/spark-temp
     ports:
       - '8080:8080'
       - '4041:4041'
@@ -20,7 +18,7 @@ services:
     volumes:
       - ./data:/data
       - ./src:/src
-      - ./spark-temp:/tmp/spark-temp  # Adicione esta linha
+      - ./spark-temp:/tmp/spark-temp
     networks:
       - spark-network
 
@@ -33,11 +31,11 @@ services:
       - SPARK_WORKER_MEMORY=3G
       - SPARK_EXECUTOR_MEMORY=1.5G
       - SPARK_WORKER_CORES=2
-      - SPARK_LOCAL_DIRS=/tmp/spark-temp  # Adicione esta linha
+      - SPARK_LOCAL_DIRS=/tmp/spark-temp
     volumes:
       - ./data:/data
       - ./src:/src
-      - ./spark-temp:/tmp/spark-temp  # Adicione esta linha
+      - ./spark-temp:/tmp/spark-temp
     ports:
       - 8081:8081  # UI do Spark Worker 1
     depends_on:
@@ -54,13 +52,13 @@ services:
       - SPARK_WORKER_MEMORY=3G
       - SPARK_EXECUTOR_MEMORY=1.5G
       - SPARK_WORKER_CORES=2
-      - SPARK_LOCAL_DIRS=/tmp/spark-temp  # Adicione esta linha
+      - SPARK_LOCAL_DIRS=/tmp/spark-temp
     volumes:
       - ./data:/data
       - ./src:/src
-      - ./spark-temp:/tmp/spark-temp  # Adicione esta linha
+      - ./spark-temp:/tmp/spark-temp
     ports:
-      - 8082:8081  # UI do Spark Worker 2 (mude a porta para evitar conflitos)
+      - 8082:8081  # UI do Spark Worker 2 (porta modificada para evitar conflitos)
     depends_on:
       - spark-master
     networks:
@@ -72,7 +70,6 @@ services:
     ports:
       - '9000:9000'
       - '9001:9001'
-   
     volumes:
       - './minio-delta-lake:/data'
     environment:
@@ -81,12 +78,13 @@ services:
       - MINIO_DEFAULT_BUCKETS=your_bucket_name
     networks:
       - spark-network
+      #- shared_network
     command: server --console-address ":9001" /data
 
   jupyter:
     build:
-      context: .  # Use the current directory to build the Dockerfile
-      dockerfile: dockerfile.jupyter  # Use the Dockerfile you created
+      context: .
+      dockerfile: dockerfile.jupyter
     container_name: jupyter-container
     environment:
       - JUPYTER_ENABLE_LAB=yes
@@ -103,7 +101,9 @@ services:
       - spark-worker-1
       - spark-worker-2
       - minio
-      
+
 networks:
   spark-network:
     driver: bridge
+  #shared_network:
+    #external: true
