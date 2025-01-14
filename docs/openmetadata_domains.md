@@ -1,5 +1,7 @@
 # Hotel Booking – Visão Hierárquica de Domínios, Áreas, Times e Data Products
 
+- [Data Mesh: Designing Data Products](https://www.datamesh-architecture.com/data-product-canvas)
+
 ---
 
 ## Domínio 1: Reservas e Acomodações
