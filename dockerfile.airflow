@@ -1,0 +1,41 @@
+FROM apache/airflow:slim-latest-python3.12
+
+USER root
+
+# Instalar dependências do sistema
+RUN apt update -qq && \
+    apt install -yq default-jdk && \
+    apt install wget && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Definir JAVA_HOME
+ENV JAVA_HOME=/usr/lib/jvm/default-java
+ENV PATH=$PATH:$JAVA_HOME/bin
+
+# Instalar Spark
+ENV SPARK_VERSION=3.4.4
+ENV HADOOP_VERSION=3
+
+RUN wget -q https://downloads.apache.org/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    tar xzf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz -C /opt/ && \
+    rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    ln -s /opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /opt/spark
+
+# Copiar o script wait-for-it.sh para o container
+COPY wait-for-it.sh /usr/local/bin/wait-for-it.sh
+RUN chmod +x /usr/local/bin/wait-for-it.sh
+
+# Copiar o script de criação de usuário admin
+COPY entrypoint_airflow.sh /usr/local/bin/entrypoint_airflow.sh
+RUN chmod +x /usr/local/bin/entrypoint_airflow.sh
+
+USER airflow
+
+# Instalar o conector MySQL
+RUN pip install mysql-connector-python \
+    minio==7.2.10 \
+    boto3==1.35.71 \
+    delta-spark==3.2.1 \
+    pandas==2.2.3 \
+    ipykernel==6.29.5

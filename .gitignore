@@ -3,7 +3,9 @@ src/spark-warehouse/
 src/spark-logs/
 spark-temp/
 openmetadata_db_data/
-
+airflow/logs
+airflow/plugins
+mysql-data
 
 data-source/
 minio-delta-lake/
