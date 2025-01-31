@@ -3,6 +3,7 @@ src/spark-warehouse/
 src/spark-logs/
 spark-temp/
 openmetadata_db_data/
+mysql-data/
 
 
 data-source/
