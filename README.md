@@ -105,3 +105,26 @@ rm -rf spark-temp/spark-*
 - [01 Hotel Booking](./docs/projects/01_hotel_booking.md)
 
 
+## Ingestion CDF - Batch and Streaming
+
+Genarating data fakes to ingest with Batch
+
+```bash
+# path inside jupyer enviroment
+cd ~/work
+# active env
+source .env/bin/activate
+# run script
+python scripts/genarate_data_fake_clothes_batch.py --start_date 2025-01-01 --end_date 2025-01-01
+```
+
+Genarating data fakes to ingest with STREAMING
+
+```bash
+# path inside jupyer enviroment
+cd ~/work
+# active env
+source .env/bin/activate
+# run script
+python scripts/genarate_data_fake_clothes_streaming.py --start_date 2025-01-01 --interval=5
+```
