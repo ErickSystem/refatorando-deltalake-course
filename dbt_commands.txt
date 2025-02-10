@@ -1,0 +1,5 @@
+dbt run --models test_bronze --profiles-dir profiles
+
+dbt run-operation register_clothes_batch_bronze
+
+export PYSPARK_SUBMIT_ARGS="--packages org.apache.hadoop:hadoop-aws:3.3.4,io.delta:delta-core_2.12:2.4.0 pyspark-shell"

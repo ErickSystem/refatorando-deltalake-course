@@ -4,6 +4,7 @@ src/spark-logs/
 spark-temp/
 openmetadata_db_data/
 mysql-data/
+src/dbt_delta_spark_minio/metastore_db
 
 
 data-source/
